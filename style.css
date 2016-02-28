@@ -1,0 +1,214 @@
+body {
+    font-family: verdana;
+}
+
+td {
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+#header {
+    margin: auto;
+    width: 400px;
+}
+
+#title {
+    background-color: lightgray;
+    width: 470px;
+    height: 40px;
+    text-align: right;
+    box-shadow: 1px 0px 0px gray;
+    font-weight: bold;
+}
+
+#title p {
+    padding: 10px;
+}
+
+#tab01 {
+    margin: auto;
+    font-size: 12px;
+}
+
+#btnCalc {
+    text-align: center;
+    width: 100px;
+    height: 25px;
+    margin: auto;    
+    background-color: #0099CC;
+    color: white;
+    box-shadow: 3px 3px 3px gray;
+    border-radius: 5px;
+}
+
+#btnCalc p {
+    padding: 4px;
+}
+
+#btnCalc:hover {
+    background-color: #66CCFF;
+    color: white;    
+}
+
+#container {
+    margin: auto;
+    background-color: lightyellow;
+    width: 470px;
+    padding: 2px 1px 15px 0px;
+    box-shadow: 4px 4px 4px gray;
+}
+
+#res {
+    margin: auto;
+    text-align: justify;
+}
+
+tr {
+    height: auto;
+    font-size: 12px;
+}
+
+.finalOn {
+    background-color: white;
+}
+
+.finalOff {
+    background-color: #CCCCFF;
+}
+
+#back {
+    text-align: center;
+    font-size: 12px;
+    width: 110px;
+    border: 1px solid mediumpurple;
+    margin: 50px auto auto auto;
+    padding: 4px;
+    box-shadow: 1px 1px 1px mediumpurple;
+    border-radius: 3px;
+    clear: both;
+}
+
+#back:hover {
+    background-color: darkorange;
+    font-weight: bold;
+}
+
+.erro {
+    color: white;
+    background-color: red;
+    font-size: 11px;
+    padding: 2;
+    margin: auto;
+    text-align: center;
+}
+
+.buttons {
+    background-color:#990033;
+    height: 20px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 3px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px gray;    
+    border-radius: 5px;
+}
+
+.buttons:hover {
+    background-color:#FF9999;
+}
+
+#prob {
+    margin: auto;
+    text-align: right;
+}
+
+.pFinal {
+    font-size: 18px;
+    font-weight: bold;
+    background: lightgreen;
+    padding: 4px;
+    border: 2px dotted darkgreen;
+}
+
+#badge {
+    border: 2px dotted #4169E1;
+    box-shadow: 5px 5px 5px lightblue;
+}
+
+#WP {
+    width: 154px;
+    margin: auto;
+    padding: 70px;
+}
+
+#rb {
+    float:left;
+    margin: auto;
+    padding: 30px 30px 10px 50px;
+}
+
+#dados {
+    float: right;
+    padding: 20px;
+}
+
+#probMenu {
+    clear: both;
+    margin: auto;
+    text-align: center;
+}
+
+#tabCalc {
+    margin: auto;
+}
+
+h3 {
+    background-color: white;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 1px;
+    border-radius: 2px;
+    border: 1px solid black;
+    padding: 3px;    
+}
+
+h3:hover {
+    background-color: mediumpurple;
+    color:white;
+}
+
+.TabProbDN {
+    margin: auto;
+    width: 70%;
+}
+
+.ZVal {
+    text-align: center;
+    margin: auto;
+    font-weight: bold;
+    font-size: 16;
+}
+
+.btnProb {
+    background-color:#990033;
+    height: 20px;
+    width: 150px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 3px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px gray;    
+    border-radius: 5px;
+}
+
+.btnProb:hover {
+    background-color:#FF9999;
+}

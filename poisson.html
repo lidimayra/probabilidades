@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <script src="jquery-2.1.1.js"></script>
+        <script>           
+            $(document).ready(function() {
+                $("#prob").hide();                
+                $("#btnCalc").click(function () {
+                    $(".erro").remove();
+                    $(".finalOn").remove();
+                    $(".finalOff").remove();
+                    media = ($("input[name=media]").val()).replace(",", ".");                    
+                    if (media=="") {
+                        $("#res").append("<p class='erro'>* Preencha o valor da média!</p>");
+                    }                
+                    else {                    
+                    desvio = Math.sqrt(media);
+                    cv = desvio/media;                    
+                    $("#res").append("<tr class=finalOn><td colspan=2>Desvio padrão</td><td>"+desvio.toFixed(2)+"</td></tr>");
+                    $("#res").append("<tr class=finalOff><td colspan=2>Coeficiente de variação</td><td>"+(cv*100).toFixed(2)+"% </td></tr>");
+                    $("#prob").show();
+                    }                    
+                });
+                                
+                $("input").blur(function() {
+                    if (isNaN (($(this).val()).replace(",", "."))) {
+                        $(".erro").remove();
+                        $("#btnCalc").hide();
+                        $(".buttons").hide();                        
+                        $("#prob").after("<tr><td colspan=2><p class='erro'>* O valor digitado é inválido. Utilize apenas números.</p></td></tr>");
+                    }
+                    else {
+                        $(".erro").remove();
+                        $("#btnCalc").show();
+                        $(".buttons").show();
+                    }                    
+                });
+                
+                $("#btnProb").click(function() {                    
+                    $(".pFinal").remove();                    
+                    x = $("input[name=x]").val();                                                        
+                    if (x=="") {
+                        $(".erro").remove();
+                        $("#prob").after("<tr><td colspan=2 class='erro'>* O campo acima não foi preenchido.</td></tr>"); 
+                    } 
+      
+                     else {
+                        XFat = 1;
+                         for (var i=1; i<=x; i++) {
+                            XFat*=i;
+                        };
+                        prob = ((Math.pow(media, x)) * Math.pow (Math.E, (media*(-1)))) / XFat;                                
+                        $("#TDprob").append("<p class='pFinal'>"+((prob*100).toFixed(2))+"% </p>");
+                     }
+                });
+            });
+        </script>               
+        
+    </head>
+    <body>
+        <div id="header"><img src="images/probabilidade.png"></div>
+        <div id="container">
+            <div id="content">
+                <div id="title">
+                    <p>Distribuição de Poisson</p>
+                </div>
+                <form>
+                    <table id="tab01">
+                        <tr>
+                            <td>Média:</td>
+                            <td><input type="text" name="media" size=5></td>
+                        </tr>
+                        <tr>
+                            <td colspan=2>
+                                <div id="btnCalc">
+                                    <p>Calcular</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan=2>
+                                <table id="res">
+                                </table>                                
+                            </td>
+                        </tr>
+                        </table>
+                        <table id="prob">
+                            <tr>
+                                <td>P ( <input type="text" name="x" size=3> )</td>
+                                <td><div id="btnProb" class="buttons">=</div></td>
+                                <td id="TDprob"></td>
+                            </tr>
+                        </table>
+                </form>
+            </div>
+            <div id="back"><a href="index.html">Página principal</a></div>
+        </div>
+        <div id="WP"><a href="http://www.windowsphone.com/s?appid=6873f9a8-737f-48ba-ba0f-53dfe1cc28df" target="_blank"><img id="badge" src="images/WPStore.png"></a></div>
+    </body>
+</html>

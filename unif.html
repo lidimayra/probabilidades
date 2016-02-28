@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <script src="jquery-2.1.1.js"></script>
+        <script>           
+            $(document).ready(function() {
+                $("#prob").hide();                
+                $("#btnCalc").click(function () {
+                    $(".erro").remove();                    
+                    $(".finalOn").remove();
+                    $(".finalOff").remove();
+                    a = parseFloat(($("input[name=a]").val()).replace(",","."));
+                    b = parseFloat(($("input[name=b]").val()).replace(",","."));                    
+                    if ( $("input[name=a]").val()=="" || $("input[name=b]").val()=="") {
+                        $("#res").append("<p class='erro'>* Preencha todos os campos!</p>");
+                    }                    
+                    else if (parseFloat(a)>parseFloat(b)) {
+                        $("#res").append("<p class='erro'>* O valor de X0 deve ser menor que o valor de Xn.</p>");
+                    }                    
+                    else {                    
+                    media = (a+b)/2;
+                    vari = (Math.pow((b-a), 2))/12;
+                    desvio = Math.sqrt(vari);
+                    cv = desvio/media;                    
+                    $("#res").append("<tr class=finalOn><td colspan=2>Média: </td><td>"+media.toFixed(2)+"</td></tr>");
+                    $("#res").append("<tr class=finalOff><td colspan=2>Variância</td><td>"+vari.toFixed(2)+"</td></tr>");
+                    $("#res").append("<tr class=finalOn><td colspan=2>Desvio padrão</td><td>"+desvio.toFixed(2)+"</td></tr>");
+                    $("#res").append("<tr class=finalOff><td colspan=2>Coeficiente de variação</td><td>"+(cv*100).toFixed(2)+"% </td></tr>");
+                    $("#prob").show();                    
+                    }
+                });                                        
+                $("input").blur(function() {
+                    if (isNaN(($(this).val()).replace(",","."))) {
+                        $(".erro").remove();
+                        $("#btnCalc").hide();
+                        $(".buttons").hide();                        
+                        $("#prob").after("<tr><td colspan=2><p class='erro'>* O valor digitado é inválido. Utilize apenas números.</p></td></tr>");
+                    }
+                    else {
+                        $(".erro").remove();
+                        $("#btnCalc").show();
+                        $(".buttons").show();
+                    }                    
+                });                
+                $("#btnProb01").click(function() {
+                    $("#probFinal01").remove();
+                    c = parseFloat(($("input[name=c]").val()).replace(",","."));
+                    d = parseFloat(($("input[name=d]").val()).replace(",","."));
+                    if ( $("input[name=c]").val()=="" || $("input[name=d]").val()=="") {
+                        $(".erro").remove();
+                        $("#prob").after("<tr><td colspan=2 class='erro'>* Preencha todos os campos.</td></tr>"); 
+                    }                    
+                    /* else if ( c > b || d < a )  {
+                        $("#TDprob01").append("<p id='probFinal01' class='pFinal'>0 % </p>");
+                    } */                    
+                    else {
+                        prob = (d-c)/(b-a);
+                        $("#TDprob01").append("<p id='probFinal01' class='pFinal'>" + (prob*100).toFixed(2) + "% </p>");                        
+                    }
+                });
+                
+                $("#btnProb02").click(function() {
+                    $("#probFinal02").remove();
+                    e = parseFloat(($("input[name=e]").val()).replace(",","."));
+                    if ( $("input[name=e]").val()=="") {
+                        $(".erro").remove();
+                        $("#prob").after("<tr><td colspan=2 class='erro'>* Preencha todos os campos.</td></tr>"); 
+                    }                
+                    else {
+                        prob = (e-a)/(b-a);
+                        $("#TDprob02").append("<p id='probFinal02' class='pFinal'>" + (prob*100).toFixed(2) + "% </p>");                        
+                    }
+                });
+                $("#btnProb03").click(function() {
+                    $("#probFinal03").remove();
+                    f = parseFloat(($("input[name=f]").val()).replace(",","."));
+                    if ( $("input[name=f]").val()=="") {
+                        $(".erro").remove();
+                        $("#prob").after("<tr><td colspan=2 class='erro'>* Preencha todos os campos.</td></tr>"); 
+                    }                
+                    else {
+                        prob = (b-f)/(b-a);
+                        $("#TDprob03").append("<p id='probFinal03' class='pFinal'>" + (prob*100).toFixed(2) + "% </p>");                        
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="header"><img src="images/probabilidade.png"></div>
+        <div id="container">
+            <div id="content">
+                <div id="title">
+                    <p>Distribuição Uniforme</p>
+                </div>
+                <form>
+                    <table id="tab01">
+                        <tr>
+                            <td>Valor de X0 (a): </td>
+                            <td><input type="text" name="a" size=5></td>
+                        </tr>
+                        <tr>
+                            <td>Valor de Xn (b):</td>
+                            <td><input type="text" name="b" size=5></td>
+                        </tr>
+                        <tr>
+                            <td colspan=2>
+                                <div id="btnCalc">
+                                    <p>Calcular</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan=2>
+                                <table id="res">
+                                </table>                                
+                            </td>
+                        </tr>
+                        </table>
+                        <table id="prob">
+                            <tr>
+                                <td>P ( <input type="text" name="c" size=3> < x < <input type="text" name="d" size=3> )</td>
+                                <td><div id="btnProb01" class="buttons">=</div></td>
+                                <td id="TDprob01"></td>
+                            </tr>
+                            <tr>
+                                <td>P ( x < <input type="text" name="e" size=3> )</td>
+                                <td><div id="btnProb02" class="buttons">=</div></td>
+                                <td id="TDprob02"></td>                                
+                            </tr>
+                            <tr>
+                                <td>P ( x > <input type="text" name="f" size=3> )</td>
+                                <td><div id="btnProb03" class="buttons">=</div></td>
+                                <td id="TDprob03"></td>  
+                            </tr>
+                        </table>
+                </form>
+            </div>
+            <div id="back"><a href="index.html">Página principal</a></div>
+        </div>
+        <div id="WP"><a href="http://www.windowsphone.com/s?appid=6873f9a8-737f-48ba-ba0f-53dfe1cc28df" target="_blank"><img id="badge" src="images/WPStore.png"></a></div>
+    </body>
+</html>

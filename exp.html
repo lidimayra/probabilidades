@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <script src="jquery-2.1.1.js"></script>
+
+        <script>           
+            $(document).ready(function() {
+                $("#prob").hide();                
+                $("#btnCalc").click(function () {
+                    $(".erro").remove();
+                    $(".finalOff").remove();
+                    vari = parseFloat(($("input[name=vari]").val()).replace(",","."));                  
+                    if ( $("input[name=vari]").val()=="") {
+                        $("#res").append("<p class='erro'>* Preencha o valor da variância.</p>");
+                    }                
+                    else {
+                        desvio = Math.sqrt(vari);
+                        lambda = 1 / desvio;
+                        $("#res").append("<tr class=finalOff><td colspan=2>Desvio padrão</td><td>"+desvio.toFixed(2)+"</td></tr>");
+                        $("#prob").show();                        
+                    }
+                });                                        
+                $("input").blur(function() {
+                    if (isNaN(($(this).val()).replace(",","."))) {
+                        $(".erro").remove();
+                        $("#btnCalc").hide();
+                        $(".buttons").hide();                        
+                        $("#prob").after("<tr><td colspan=2><p class='erro'>* O valor digitado é inválido. Utilize apenas números.</p></td></tr>");
+                    }
+                    else {
+                        $(".erro").remove();
+                        $("#btnCalc").show();
+                        $(".buttons").show();
+                    }                    
+                });
+                
+                            
+                $("#btnProb01").click(function() {
+                    $("#probFinal01").remove();
+                    a = parseFloat(($("input[name=a]").val()).replace(",","."));
+                    b = parseFloat(($("input[name=b]").val()).replace(",","."));
+                    if ( $("input[name=a]").val()=="" || $("input[name=b]").val()=="") {
+                        $(".erro").remove();
+                        $("#prob").after("<tr><td colspan=2 class='erro'>* Preencha todos os campos.</td></tr>"); 
+                    }
+                    else {
+                        prob = (Math.pow (Math.E, ((lambda*(-1)) * a)) - (Math.pow (Math.E, ((lambda * (-1)) * b))));
+                        $("#TDprob01").append("<p id='probFinal01' class='pFinal'>" + (prob*100).toFixed(2) + "% </p>");
+                    };                    
+                });
+                
+                $("#btnProb02").click(function() {
+                    $("#probFinal02").remove();
+                    c = parseFloat(($("input[name=c]").val()).replace(",","."));
+                    if ( $("input[name=c]").val()=="") {
+                        $(".erro").remove();
+                        $("#prob").after("<tr><td colspan=2 class='erro'>* Preencha todos os campos.</td></tr>"); 
+                    }                
+                    else {
+                        prob = 1 - (Math.pow(Math.E, (lambda * (-1) * c)));;
+                        $("#TDprob02").append("<p id='probFinal02' class='pFinal'>" + (prob*100).toFixed(2) + "% </p>");                        
+                    }
+                });
+                $("#btnProb03").click(function() {
+                    $("#probFinal03").remove();
+                    d = parseFloat(($("input[name=d]").val()).replace(",","."));
+                    if ( $("input[name=d]").val()=="") {
+                        $(".erro").remove();
+                        $("#prob").after("<tr><td colspan=2 class='erro'>* Preencha todos os campos.</td></tr>"); 
+                    }                
+                    else {
+                        prob = Math.pow(Math.E, (lambda * (-1) * d));
+                        $("#TDprob03").append("<p id='probFinal03' class='pFinal'>" + (prob*100).toFixed(2) + "% </p>");                        
+                    }
+                });
+            
+            });
+        </script>               
+        
+        
+    </head>
+    <body>
+        <div id="header"><img src="images/probabilidade.png"></div>
+        <div id="container">
+            <div id="content">
+                <div id="title">
+                    <p>Distribuição Exponencial</p>
+                </div>
+                <form>
+                    <table id="tab01">
+                        <tr>
+                            <td>Variância: </td>
+                            <td><input type="text" name="vari" size=5></td>
+                        </tr>
+                        <tr>
+                            <td colspan=2>
+                                <div id="btnCalc">
+                                    <p>Calcular</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan=2>
+                                <table id="res">
+                                </table>                                
+                            </td>
+                        </tr>
+                        </table>
+                        <table id="prob">
+                            <tr>
+                                <td>P ( <input type="text" name="a" size=3> < x < <input type="text" name="b" size=3> )</td>
+                                <td><div id="btnProb01" class="buttons">=</div></td>
+                                <td id="TDprob01"></td>
+                            </tr>
+                            <tr>
+                                <td>P ( x < <input type="text" name="c" size=3> )</td>
+                                <td><div id="btnProb02" class="buttons">=</div></td>
+                                <td id="TDprob02"></td>                                
+                            </tr>
+                            <tr>
+                                <td>P ( x > <input type="text" name="d" size=3> )</td>
+                                <td><div id="btnProb03" class="buttons">=</div></td>
+                                <td id="TDprob03"></td>  
+                            </tr>
+                        </table>
+                </form>
+            </div>
+            <div id="back"><a href="index.html">Página principal</a></div>
+        </div>
+        <div id="WP"><a href="http://www.windowsphone.com/s?appid=6873f9a8-737f-48ba-ba0f-53dfe1cc28df" target="_blank"><img id="badge" src="images/WPStore.png"></a></div>
+    </body>
+</html>

@@ -1,0 +1,250 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <script src="jquery-2.1.1.js"></script>
+        <script src="jquery-ui.min.js"></script>
+        <script>           
+            $(document).ready(function() {
+                $(".tabValue").hide();
+                $(".texto").hide();
+                $(".btnProb").hide();
+                $("#lastLine").hide();                
+
+                function calcZ (x) {
+                    if ($("#rbPop").is(":checked"))
+                        return (x-media)/desvio;
+                    else if ($("#rbAmost").is(":checked"))
+                        return (x-media)/((desvio)/(Math.sqrt(n)));                  
+                };
+                
+                $("input[type=radio]").click(function() {
+                    if ($("#rbAmost").is(":checked"))
+                        $("#lastLine").show();
+                    else 
+                        $("#lastLine").hide();
+                });
+                
+                $(".buttons").click(function() {
+                    $(".pFinal").remove();
+                    $(".ng").remove();
+                    $(".erro").remove();
+                    media= parseFloat(($("input[name=media]").val()).replace(",","."));
+                    desvio = parseFloat(($("input[name=desvio]").val()).replace(",",".")); 
+                    n = parseFloat(($("input[name=n]").val()).replace(",",".")); 
+                    if ( $("input[name=media]").val()=="" || $("input[name=desvio]").val()=="") {                        
+                        $("#lastLine").after("<tr class='ng'><td colspan=2><p class='erro'>* Preencha todos os campos!</td></tr></p>");
+                    };                    
+                    if ($("#rbAmost").is(":checked")) {                        
+                        if ($("input[name=n]").val()=="")
+                            $("#lastLine").after("<tr class='ng'><td colspan=2><p class='erro'>* Preencha todos os campos!</td></tr></p>");
+                    }                    
+                });                    
+                $("#OK1").click(function() {                    
+                    a = parseFloat(($("input[name=a]").val()).replace(",","."));
+                    b = parseFloat(($("input[name=b]").val()).replace(",",".")); 
+                    if ( $("input[name=a]").val()=="" || $("input[name=b]").val()=="") {
+                        $("#probL1").after("<tr class='ng'><td><p class='erro'>* Preencha todos os campos!</p></td></tr>");
+                    }                    
+                    else if (a>=b) {
+                        $("#probL1").after("<tr class='ng'><td colspan=2><p class='erro'>* O primeiro valor deve ser menor que o segundo!</p></td></tr>");
+                    } else {
+                        $("#texto1").show();
+                        $('.ZVal').remove();
+                        if ($("#rbPop").is(":checked") || ($("#rbAmost").is(":checked"))) {
+                            za = calcZ (a, media, desvio);
+                            zb = calcZ (b, media, desvio);
+                        } else {
+                            $("#texto1").hide();
+                            $("#rb").before("<p class='erro'>Selecione População ou Amostra</p>");
+                        };                        
+                        $("#texto1").after("<tr class='ZVal'><td>Z<sub>"+a+"</sub> = "+za.toFixed(2)+"</td><td><input type=text name=tabZA size=6></td><tr class='ZVAL' id='ZValB'><td> Z<sub>"+b+"</sub> = "+zb.toFixed(2)+"</td><td><input type=text name=tabZB size=6></td></tr>");
+                        $("#btnProb01").show();                       
+                    };
+                });
+                    $("#OK2").click(function() {  
+                    var c = parseFloat(($("input[name=c]").val()).replace(",","."));
+                    if ( $("input[name=c]").val()=="") {
+                        $("#probL2").after("<tr class='ng'><td><p class='erro'>* Preencha todos os campos!</p></td></tr>");
+                    } else {
+                        $("#texto2").show();
+                        $('.ZVal').remove();
+                        if ($("#rbPop").is(":checked") || ($("#rbAmost").is(":checked"))) {
+                            zc = calcZ (c, media, desvio);
+                        } else {
+                            $("#texto2").hide();
+                            $("#rb").before("<p class='erro'>Selecione População ou Amostra</p>");
+                        };                        
+                        $("#texto2").after("<tr class='ZVal' id='ZValC'><td>Z<sub>"+c+"</sub> = "+zc.toFixed(2)+"</td><td><input type=text name=tabZC size=6></td>");
+                        $("#btnProb02").show();                         
+                    };
+                });
+                $("#OK3").click(function() {                    
+                    var d = parseFloat(($("input[name=d]").val()).replace(",","."));
+                    if ( $("input[name=d]").val()=="") {
+                        $("#probL3").after("<tr class='ng'><td><p class='erro'>* Preencha todos os campos!</p></td></tr>");
+                    } else {
+                        $("#texto3").show();
+                        $('.ZVal').remove();
+                        if ($("#rbPop").is(":checked") || ($("#rbAmost").is(":checked"))) {
+                            zd = calcZ (d, media, desvio);
+                        } else {
+                            $("#texto3").hide();
+                            $("#rb").before("<p class='erro'>Selecione População ou Amostra</p>");
+                        };                        
+                        $("#texto3").after("<tr class='ZVal' id='ZValD'><td>Z<sub>"+d+"</sub> = "+zd.toFixed(2)+"</td><td><input type=text name=tabZD size=6></td>");
+                        $("#btnProb03").show(); 
+                    };
+                });
+                $("#btnProb01").click(function () {
+                    $("#probFinal01").remove();
+                    $(".erro").remove();
+                    if ( $("input[name=tabZA]").val()=="" || $("input[name=tabZB]").val()=="")
+                        $("#rb").before("<p class='erro'>* Preencha todos os campos!</p>");
+                    else {
+                        var tabZA = parseFloat(($("input[name=tabZA]").val()).replace(",","."));
+                        var tabZB = parseFloat(($("input[name=tabZB]").val()).replace(",","."));
+                        var prob01;
+                        if (za>0 && zb>0)
+                        prob01 = tabZB-tabZA;
+                        else if (za<0 && zb<0)
+                            prob01 = tabZA - tabZB;
+                        else if (za<0 && zb>0)
+                            prob01 = tabZA + tabZB - 1;
+                        $("#TDprob01").append("<p id='probFinal01' class='pFinal'>" + (prob01*100).toFixed(2) + "% </p>");
+                    }
+                });                
+                $("#btnProb02").click(function () {
+                    $("#probFinal02").remove();
+                    $(".erro").remove();
+                    if ( $("input[name=tabZC]").val()=="")
+                        $("#rb").before("<p class='erro'>* Preencha todos os campos!</p>");
+                    else {
+                        var tabZC = parseFloat(($("input[name=tabZC]").val()).replace(",","."));
+                        var prob02;
+                        if (zc < 0)
+                            prob02 = 1-tabZC;
+                        else
+                            prob02 = tabZC;
+                        $("#TDprob02").append("<p id='probFinal02' class='pFinal'>" + (prob02*100).toFixed(2) + "% </p>");
+                    }
+                });
+                $("#btnProb03").click(function () {
+                    $("#probFinal03").remove();
+                    $(".erro").remove();
+                    if ( $("input[name=tabZD]").val()=="")
+                        $("#rb").before("<p class='erro'>* Preencha todos os campos!</p>");
+                    else {
+                        var tabZD = parseFloat(($("input[name=tabZD]").val()).replace(",","."));
+                        var prob03;
+                        if (zd < 0)
+                            prob03 = tabZD;
+                        else
+                            prob03 = 1 - tabZD;
+                        $("#TDprob03").append("<p id='probFinal03' class='pFinal'>" + (prob03*100).toFixed(2) + "% </p>");
+                    }
+                });
+                $("input[type=text]").blur(function() {
+                    if (isNaN(($(this).val()).replace(",","."))) {
+                        $(".erro").remove();
+                        $(".buttons").hide();                        
+                        $("#rb").before("<p class='erro'>* Utilize apenas números.</p>");
+                    }
+                    else {
+                        $(".erro").remove();
+                        $(".buttons").show();
+                    }
+                });
+                        
+                $("#probMenu").accordion({collapsible: true, active: false});
+            });
+        </script>
+    </head>
+    <body>
+        <div id="header"><img src="images/probabilidade.png"></div>
+        <div id="container">
+            <div id="content">
+                <div id="title">
+                    <p>Distribuição Normal</p>
+                </div>
+                <form>
+                    <div id="rb">
+                        <p><input type="radio" name="PopAmost" id="rbPop">População</p>
+                        <p><input type="radio" name="PopAmost" id="rbAmost">Amostra</p>
+                    </div>
+                    <div id="dados">
+                        <table id="tab01">
+                            <tr>
+                                <td>Média: </td>
+                                <td><input type="text" name="media" size=5></td>
+                            </tr>
+                            <tr>
+                                <td>Desvio Padrão:</td>
+                                <td><input type="text" name="desvio" size=5></td>
+                            </tr>
+                            <tr id="lastLine">
+                                <td>N (espaço amostral):</td>
+                                <td><input type="text" name="n" size=5></td>
+                            </tr>
+                        </table>
+                    </div>
+                            <div id="probMenu">                                
+                                <h3>P ( a < x < b )</h3>
+                                <div class="TabProbDN">
+                                    <table>
+                                        <tr id="probL1">
+                                            <td>P ( <input type="text" name="a" size=3> < x < <input type="text" name="b" size=3> )</td>                                            
+                                            <td><div class="buttons" id="OK1">OK</div></td>
+                                        </tr>
+                                        <tr class='texto' id="texto1">
+                                            <td colspan=2>Digite o valor da tabela (Distribuição Z) correspondente: </td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class='btnProb' id='btnProb01'>Probabilidade</div></td>
+                                            <td id="TDprob01"></td>
+                                        </tr>
+                                    </table>                                   
+                                </div>
+                                <h3>P ( x < a )</h3>
+                                <div class="TabProbDN">                                    
+                                    <table>
+                                        <tr id="probL2">
+                                            <td colspan=2>P ( x < <input type="text" name="c" size=3> )</td>
+                                            <td><div class="buttons" id="OK2">OK</div></td>
+                                        </tr>
+                                         <tr class='texto' id="texto2">
+                                            <td colspan=2>Digite o valor da tabela (Distribuição Z) correspondente: </td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class='btnProb' id='btnProb02'>Probabilidade</div></td>
+                                            <td id="TDprob02"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <h3>P ( x > a )</h3>
+                                      <div class="TabProbDN">                                    
+                                    <table>
+                                        <tr>
+                                            <tr id="probL3">
+                                            <td colspan=2>P ( x > <input type="text" name="d" size=3> )</td>
+                                            <td><div class="buttons" id="OK3">OK</div></td>
+                                        </tr>
+                                        <tr class='texto' id="texto3">
+                                            <td colspan=2>Digite o valor da tabela (Distribuição Z) correspondente: </td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class='btnProb' id='btnProb03'>Probabilidade</div></td>
+                                            <td id="TDprob03"></td>
+                                        </tr>
+                                    </table>
+                                          <br><br><br><br><br><br><br><br><br><br><br>
+                                    </div>
+                            </div>
+
+            </form>
+            </div>
+            <div id="back"><a href="index.html">Página principal</a></div>
+        </div>
+        <div id="WP"><a href="http://www.windowsphone.com/s?appid=6873f9a8-737f-48ba-ba0f-53dfe1cc28df" target="_blank"><img id="badge" src="images/WPStore.png"></a></div>
+    </body>
+</html>
